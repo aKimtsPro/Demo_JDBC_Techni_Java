@@ -1,10 +1,8 @@
+import data_access.ConnectionFactory;
 import model.Section;
 import model.Student;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Scanner;
 
 public class Program {
 
@@ -27,6 +25,7 @@ public class Program {
         // DEMO 2
 
         Section s = getSection(1110);
+
         System.out.println("----- SECTION -----");
         System.out.println(s.getNom());
         System.out.println(s.getDelegue().getFirstname() + " " + s.getDelegue().getLastname());

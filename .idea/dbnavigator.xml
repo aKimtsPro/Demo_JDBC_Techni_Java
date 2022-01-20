@@ -32,11 +32,9 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="d8fd8429-d849-411a-bacd-1127adbbe401">
-      <console name="Connection" type="STANDARD" schema="dbslide" session="Main"><![CDATA[SELECT se.section_id as section_id, section_name, first_name, last_name, birth_date, student_id
-FROM section se 
-    JOIN student st 
-        ON se.delegate_id = st.student_id
-WHERE se.section_id = 1010;]]></console>
+      <console name="Connection" type="STANDARD" schema="dbslide" session="Main"><![CDATA[INSERT INTO section(section_id, section_name) VALUES ( 1, '' );
+
+SELECT ('');]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

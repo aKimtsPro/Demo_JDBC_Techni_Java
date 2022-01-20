@@ -73,6 +73,8 @@ public class Student {
         private LocalDate birthdate;
         private Section responsableDe;
 
+        // region petite methode
+
         public StudentBuilder id(long id){
             this.id = id;
             return this;
@@ -104,6 +106,8 @@ public class Student {
             this.responsableDe = responsableDe;
             return this;
         }
+
+        // endregion
 
         public Student build(String nom, String prenom){
             return new Student(
