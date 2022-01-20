@@ -8,17 +8,17 @@ public class Student {
     private String firstname;
     private String lastname;
     private LocalDate birthdate;
-    private Section section;
+    private Section responsableDe;
 
     private Student() {
     }
 
-    private Student(long id, String firstname, String lastname, LocalDate birthdate, Section section) {
+    private Student(long id, String firstname, String lastname, LocalDate birthdate, Section responsableDe) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthdate = birthdate;
-        this.section = section;
+        this.responsableDe = responsableDe;
     }
 
     public long getId() {
@@ -53,12 +53,12 @@ public class Student {
         this.birthdate = birthdate;
     }
 
-    public Section getSection() {
-        return section;
+    public Section getResponsableDe() {
+        return responsableDe;
     }
 
-    public void setSection(Section section) {
-        this.section = section;
+    public void setResponsableDe(Section responsableDe) {
+        this.responsableDe = responsableDe;
     }
 
     public static StudentBuilder builder(){
@@ -71,7 +71,7 @@ public class Student {
 //    private String firstname;
 //    private String lastname;
         private LocalDate birthdate;
-        private Section section;
+        private Section responsableDe;
 
         public StudentBuilder id(long id){
             this.id = id;
@@ -100,8 +100,8 @@ public class Student {
             return this;
         }
 
-        public StudentBuilder section(Section section){
-            this.section = section;
+        public StudentBuilder responsableDe(Section responsableDe){
+            this.responsableDe = responsableDe;
             return this;
         }
 
@@ -111,7 +111,7 @@ public class Student {
                     prenom,
                     nom,
                     birthdate,
-                    section
+                    responsableDe
             );
         }
     }

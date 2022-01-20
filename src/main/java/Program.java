@@ -10,17 +10,26 @@ public class Program {
 
     public static void main(String[] args) {
 
-        printSections();
+        // DEMO 1
+//        printSections();
 
-        Scanner sc = new Scanner(System.in);
-        try {
-            System.out.println("Veuillez s'il vous est gré entrer un identifiant: ");
-            int id = Integer.parseInt( sc.nextLine() );
-            printStudentWithSectionId(id);
-        }
-        catch (NumberFormatException exception) {
-            System.out.println("id invalide");
-        }
+        // EXO 1
+//        Scanner sc = new Scanner(System.in);
+//        try {
+//            System.out.println("Veuillez s'il vous est gré entrer un identifiant: ");
+//            int id = Integer.parseInt( sc.nextLine() );
+//            printStudentWithSectionId(id);
+//        }
+//        catch (NumberFormatException exception) {
+//            System.out.println("id invalide");
+//        }
+
+        // DEMO 2
+
+        Section s = getSection(1110);
+        System.out.println("----- SECTION -----");
+        System.out.println(s.getNom());
+        System.out.println(s.getDelegue().getFirstname() + " " + s.getDelegue().getLastname());
 
     }
 
@@ -90,7 +99,7 @@ public class Program {
     public static Section getSection(int id){
 
         String query =
-                " SELECT * " +
+                " SELECT se.section_id as id, section_name, first_name, last_name, birth_date, student_id " +
                 " FROM section se " +
                 "     JOIN student st " +
                 "        ON se.delegate_id = st.student_id " +
@@ -104,12 +113,25 @@ public class Program {
 
             if( rs.next() ){
 
-                Section s = null;
+                Section s = new Section();
 
+                s.setId( rs.getInt("id") );
+                s.setNom( rs.getString("section_name"));
 
+                Student st = Student.builder()
+                        .responsableDe( s )
+                        .birthdate( rs.getDate("birth_date") )
+                        .id( rs.getInt("student_id") )
+                        .build(
+                                rs.getString("first_name"),
+                                rs.getString("last_name")
+                        );
+
+                s.setDelegue( st );
 
 
                 return s;
+
             }
 
         }
