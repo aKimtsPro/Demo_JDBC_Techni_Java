@@ -1,3 +1,6 @@
+import model.Section;
+import model.Student;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,8 +10,11 @@ public class Program {
 
     public static void main(String[] args) {
 
+        printSections();
+
         Scanner sc = new Scanner(System.in);
         try {
+            System.out.println("Veuillez s'il vous est gré entrer un identifiant: ");
             int id = Integer.parseInt( sc.nextLine() );
             printStudentWithSectionId(id);
         }
@@ -38,6 +44,8 @@ public class Program {
         catch (SQLException ex){
             ex.printStackTrace();
         }
+
+
     }
 
     public static void printStudentWithSectionId(int sectionId){
@@ -76,6 +84,39 @@ public class Program {
         }catch (SQLException ex){
             ex.printStackTrace();
         }
+
+    }
+
+    public static Section getSection(int id){
+
+        String query =
+                " SELECT * " +
+                " FROM section se " +
+                "     JOIN student st " +
+                "        ON se.delegate_id = st.student_id " +
+                " WHERE se.section_id = " + id;
+
+        try(
+                Connection co = ConnectionFactory.getConnection();
+                Statement statement = co.createStatement();
+                ResultSet rs = statement.executeQuery( query );
+        ){
+
+            if( rs.next() ){
+
+                Section s = null;
+
+
+
+
+                return s;
+            }
+
+        }
+        catch ( SQLException ex ){
+            ex.printStackTrace();
+        }
+        return null;
 
     }
 
