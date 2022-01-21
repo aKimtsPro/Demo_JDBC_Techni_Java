@@ -24,13 +24,16 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="d8fd8429-d849-411a-bacd-1127adbbe401">
+        <schema name="dbslide" object-types="table, view, procedure, function, column" />
+        <schema name="dbslide_bis" object-types="table, view, function" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="d8fd8429-d849-411a-bacd-1127adbbe401">
-      <console name="Connection" type="STANDARD" schema="dbslide" session="Main"><![CDATA[CALL SP_INSERT_SECTION ( 7777, "SQL", 22 );
-
-SELECT * FROM section;]]></console>
+      <console name="Connection" type="STANDARD" schema="dbslide_bis" session="Main"><![CDATA[SELECT * FROM student order by birth_date;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

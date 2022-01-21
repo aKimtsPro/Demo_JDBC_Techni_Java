@@ -41,33 +41,39 @@ public class Program {
 
         // EXO 3
 
+//        SectionDAO dao = new SectionDAO();
+//
+//        System.out.println("------- INSERT -------");
+//        Section section = new Section(9999, "Programmation", null);
+////        System.out.println("INSERT DONE : "+ dao.insert(section) );
+//        dao.insertByProcedure(section);
+//
+//        System.out.println("------- GET ONE -------");
+//        System.out.println(dao.getOne(9999));
+//
+//        System.out.println("------- UPDATE -------");
+//        System.out.println("LINES UPDATE : "+
+//                dao.update(9999, "Programmation Java", 7));
+//
+//        System.out.println("------- GET ALL -------");
+//        dao.getAll().forEach(System.out::println);
+//
+//        System.out.println("------- DELETE --------");
+//        dao.deleteById(9999);
+//
+//        System.out.println("------- GET ALL -------");
+//        dao.getAll().forEach(System.out::println);
+
+
+        // TODO : DEMO 5
+
         SectionDAO dao = new SectionDAO();
-
-        System.out.println("------- INSERT -------");
-        Section section = new Section(9999, "Programmation", null);
-//        System.out.println("INSERT DONE : "+ dao.insert(section) );
-        dao.insertByProcedure(section);
-
-        System.out.println("------- GET ONE -------");
-        System.out.println(dao.getOne(9999));
-
-        System.out.println("------- UPDATE -------");
-        System.out.println("LINES UPDATE : "+
-                dao.update(9999, "Programmation Java", 7));
-
-        System.out.println("------- GET ALL -------");
-        dao.getAll().forEach(System.out::println);
-
-        System.out.println("------- DELETE --------");
-        dao.deleteById(9999);
-
-        System.out.println("------- GET ALL -------");
-        dao.getAll().forEach(System.out::println);
-
+        dao.updateBizarre();
 
 
     }
 
+    // TODO : DEMO 1 : faire une requete de SELECT
     public static void printSections(){
         String query = "SELECT * FROM section";
         try (
@@ -92,6 +98,7 @@ public class Program {
 
     }
 
+    // TODO : DEMO 2 - REQUETE avec un parametre
     public static void printStudentWithSectionId(int sectionId){
 
         String query =

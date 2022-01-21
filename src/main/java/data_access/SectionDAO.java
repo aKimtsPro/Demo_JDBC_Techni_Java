@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// DEMO 3
+// TODO : DEMO 3
 // DAO : Data Access Object = Objet d'Accès aux Données
 public class SectionDAO {
 
@@ -30,6 +30,7 @@ public class SectionDAO {
         return false;
 
     }
+    // TODO : DEMO 4
     public void insertByProcedure( Section toInsert ){
 
         String query = "call SP_INSERT_SECTION( ?, ?, ?, ? )";
@@ -131,6 +132,40 @@ public class SectionDAO {
         }
         return false;
     }
+    public int updateBizarre(){
+
+        String query = "SELECT * FROM student ORDER BY birth_date";
+
+        try(
+            Connection co = ConnectionFactory.getConnection();
+            Statement stmt = co.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = stmt.executeQuery(query);
+        ){
+            int ligneModified = 0;
+
+            rs.last();
+            do {
+                   Date birthdate = rs.getDate("birth_date");
+                   String firstname = rs.getString("first_name");
+                   String lastname = rs.getString("last_name");
+
+                   if( birthdate.getYear() >= 70 ){
+                       rs.updateString( "login", (firstname+"_"+lastname).toLowerCase() );
+                       rs.updateRow();
+                       ligneModified++;
+                   }
+            } while ( rs.previous() );
+            return ligneModified;
+
+        }
+        catch (SQLException ex){
+            System.out.println( ex.getSQLState() );
+            System.out.println( ex.getErrorCode() );
+        }
+        return 0;
+
+    }
+
 
     // DELETE
     public boolean deleteById(long id){
