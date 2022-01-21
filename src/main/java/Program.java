@@ -33,11 +33,15 @@ public class Program {
 
         // DEMO 3 + EXO 2
 
-        SectionDAO dao = new SectionDAO();
-        Section section = new Section(9999, "Programmation", null);
+//        SectionDAO dao = new SectionDAO();
+//        Section section = new Section(9999, "Programmation", null);
+//
+//        System.out.println("INSERT DONE : "+ dao.insert(section) );
+//        System.out.println("LINES DELETED : "+ dao.deleteStartsWith('P'));
 
-        System.out.println("INSERT DONE : "+ dao.insert(section) );
-        System.out.println("LINES DELETED : "+ dao.deleteStartsWith('P'));
+        // EXO 3
+        SectionDAO dao = new SectionDAO();
+        dao.getAll().forEach(System.out::println);
 
     }
 

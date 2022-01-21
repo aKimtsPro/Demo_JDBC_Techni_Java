@@ -1,8 +1,11 @@
 package model;
 
+import lombok.ToString;
+
 import java.sql.Date;
 import java.time.LocalDate;
 
+@ToString(exclude = "responsableDe")
 public class Student {
     private long id;
     private String firstname;

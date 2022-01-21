@@ -85,8 +85,49 @@ public class SectionDAO {
 
     // UPDATE
 
+    public boolean update(long id, String newName, long newDelegateId ){
+
+        String query =
+                """
+                UPDATE section
+                SET section_name = ?, delegate_id = ?
+                WHERE section_id = ?
+                """;
+
+        try(
+                Connection co = ConnectionFactory.getConnection();
+                PreparedStatement stmt = co.prepareStatement( query );
+        ){
+            stmt.setLong(2, newDelegateId);
+            stmt.setString(1, newName);
+            stmt.setLong(3, id);
+
+            return 1 == stmt.executeUpdate();
+        }
+        catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
     // DELETE
-    public int delete(String nomSection){
+    public boolean deleteById(long id){
+        String query = "DELETE FROM section WHERE section_id = ?";
+
+        try(
+            Connection co = ConnectionFactory.getConnection();
+            PreparedStatement stmt = co.prepareStatement( query );
+        ){
+            stmt.setLong(1, id);
+            return 1 == stmt.executeUpdate();
+        }
+        catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    public int deleteByName(String nomSection){
 
         String query = "DELETE FROM section WHERE section_name = ?";
 
@@ -127,32 +168,24 @@ public class SectionDAO {
     }
 
 
-    private Section extract(ResultSet rs) throws SQLException{
+    private Section extract(ResultSet rs) throws SQLException {
 
         Section s = new Section();
 
-        s.setId( rs.getInt("section_id") );
-        s.setNom( rs.getString("section_name"));
+        s.setId(rs.getInt("section_id"));
+        s.setNom(rs.getString("section_name"));
 
         Student st = Student.builder()
-                .responsableDe( s )
-                .birthdate( rs.getDate("birth_date") )
-                .id( rs.getInt("student_id") )
+                .responsableDe(s)
+                .birthdate(rs.getDate("birth_date"))
+                .id(rs.getInt("student_id"))
                 .build(
                         rs.getString("first_name"),
                         rs.getString("last_name")
                 );
 
-        s.setDelegue( st );
+        s.setDelegue(st);
         return s;
-
     }
-
-
-
-    // DELETE BY ID
-
-
-    // UPDATE (nom, delegué) sur base de l'ID
 
 }
