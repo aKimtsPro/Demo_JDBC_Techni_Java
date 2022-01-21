@@ -4,6 +4,7 @@ import model.Section;
 import model.Student;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 // DEMO 3
@@ -17,7 +18,7 @@ public class SectionDAO {
 
         try (
                 Connection co = ConnectionFactory.getConnection();
-                PreparedStatement stmt = co.prepareStatement(query);
+                PreparedStatement stmt = co.prepareStatement( query );
         ){
             stmt.setLong(1, toInsert.getId() );
             stmt.setString(2, toInsert.getNom() );
@@ -34,7 +35,7 @@ public class SectionDAO {
     public Section getOne(int id){
 
         String query =
-                " SELECT se.section_id as id, section_name, first_name, last_name, birth_date, student_id " +
+                " SELECT se.section_id as section_id, section_name, first_name, last_name, birth_date, student_id " +
                 " FROM section se " +
                 "     JOIN student st " +
                 "        ON se.delegate_id = st.student_id " +
@@ -46,26 +47,8 @@ public class SectionDAO {
                 ResultSet rs = statement.executeQuery( query );
         ){
 
-            if( rs.next() ){
-
-                Section s = new Section();
-
-                s.setId( rs.getInt("id") );
-                s.setNom( rs.getString("section_name"));
-
-                Student st = Student.builder()
-                        .responsableDe( s )
-                        .birthdate( rs.getDate("birth_date") )
-                        .id( rs.getInt("student_id") )
-                        .build(
-                                rs.getString("first_name"),
-                                rs.getString("last_name")
-                        );
-
-                s.setDelegue( st );
-                return s;
-
-            }
+            if( rs.next() )
+                return extract( rs );
 
         }
         catch ( SQLException ex ){
@@ -75,14 +58,101 @@ public class SectionDAO {
 
     }
     public List<Section> getAll(){
+        String query = """
+                SELECT se.section_id as section_id, section_name, student_id, first_name, last_name, birth_date
+                FROM section se
+                    JOIN student st
+                        ON se.delegate_id = student_id;
+                """;
+
+        try(
+            Connection co = ConnectionFactory.getConnection();
+            Statement stmt = co.createStatement();
+            ResultSet rs = stmt.executeQuery( query );
+        ){
+
+            List<Section> sections = new ArrayList<>();
+            while( rs.next() )
+                sections.add( extract(rs) );
+            return sections;
+
+        }
+        catch (SQLException ex){
+            ex.printStackTrace();
+        }
         return null;
     }
 
     // UPDATE
 
     // DELETE
-//    public ? delete(String nomSection){
-//        // qqchose
-//    }
+    public int delete(String nomSection){
+
+        String query = "DELETE FROM section WHERE section_name = ?";
+
+        try(
+            Connection co = ConnectionFactory.getConnection();
+            PreparedStatement stmt = co.prepareStatement(query);
+        ){
+            stmt.setString(1, nomSection);
+            return stmt.executeUpdate();
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int deleteStartsWith(char start){
+        if( (start < 'a' || start > 'z') && (start < 'A' || start > 'Z' ) )
+            throw new IllegalArgumentException("start doit être une lettre");
+
+        String query = "DELETE FROM section WHERE section_name LIKE ?";
+//        String query = "DELETE FROM section WHERE section_name LIKE ?%";
+
+        try (
+                Connection co = ConnectionFactory.getConnection();
+                PreparedStatement stmt = co.prepareStatement(query);
+        ){
+
+            stmt.setString(1,start + "%");
+//            stmt.setString(1,start + "");
+            return stmt.executeUpdate();
+
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        return 0;
+
+    }
+
+
+    private Section extract(ResultSet rs) throws SQLException{
+
+        Section s = new Section();
+
+        s.setId( rs.getInt("section_id") );
+        s.setNom( rs.getString("section_name"));
+
+        Student st = Student.builder()
+                .responsableDe( s )
+                .birthdate( rs.getDate("birth_date") )
+                .id( rs.getInt("student_id") )
+                .build(
+                        rs.getString("first_name"),
+                        rs.getString("last_name")
+                );
+
+        s.setDelegue( st );
+        return s;
+
+    }
+
+
+
+    // DELETE BY ID
+
+
+    // UPDATE (nom, delegué) sur base de l'ID
 
 }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -26,7 +26,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="d8fd8429-d849-411a-bacd-1127adbbe401">
-        <schema name="dbslide" object-types="table, view, procedure, function, constraint, index, column, dataset trigger" />
+        <schema name="dbslide" object-types="table, view, function, column" />
       </connection>
     </loaded-nodes>
   </component>
@@ -34,7 +34,10 @@
     <connection id="d8fd8429-d849-411a-bacd-1127adbbe401">
       <console name="Connection" type="STANDARD" schema="dbslide" session="Main"><![CDATA[INSERT INTO section(section_id, section_name) VALUES ( 1, '' );
 
-SELECT ('');]]></console>
+SELECT se.section_id as section_id, section_name, student_id, first_name, last_name, birth_date
+FROM section se 
+    JOIN student st
+        ON se.delegate_id = student_id;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

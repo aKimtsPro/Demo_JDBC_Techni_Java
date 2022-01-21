@@ -1,4 +1,5 @@
 import data_access.ConnectionFactory;
+import data_access.SectionDAO;
 import model.Section;
 import model.Student;
 
@@ -24,11 +25,19 @@ public class Program {
 
         // DEMO 2
 
-        Section s = getSection(1110);
+//        Section s = getSection(1110);
+//
+//        System.out.println("----- SECTION -----");
+//        System.out.println(s.getNom());
+//        System.out.println(s.getDelegue().getFirstname() + " " + s.getDelegue().getLastname());
 
-        System.out.println("----- SECTION -----");
-        System.out.println(s.getNom());
-        System.out.println(s.getDelegue().getFirstname() + " " + s.getDelegue().getLastname());
+        // DEMO 3 + EXO 2
+
+        SectionDAO dao = new SectionDAO();
+        Section section = new Section(9999, "Programmation", null);
+
+        System.out.println("INSERT DONE : "+ dao.insert(section) );
+        System.out.println("LINES DELETED : "+ dao.deleteStartsWith('P'));
 
     }
 
