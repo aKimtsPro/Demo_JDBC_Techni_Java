@@ -30,14 +30,36 @@ public class SectionDAO {
         return false;
 
     }
+    public void insertByProcedure( Section toInsert ){
 
+        String query = "call SP_INSERT_SECTION( ?, ?, ?, ? )";
+
+        try(
+                Connection co = ConnectionFactory.getConnection();
+                CallableStatement stmt = co.prepareCall(query);
+        ){
+            stmt.setLong( 1, toInsert.getId() );
+            stmt.setString( 2, toInsert.getNom() );
+            if(toInsert.getDelegue() != null)
+                stmt.setLong(3, toInsert.getDelegue().getId());
+            else
+                stmt.setNull(3, Types.INTEGER);
+
+            stmt.execute();
+            int a = stmt.getInt("rslt");
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+
+    }
     // READ
     public Section getOne(int id){
 
         String query =
                 " SELECT se.section_id as section_id, section_name, first_name, last_name, birth_date, student_id " +
                 " FROM section se " +
-                "     JOIN student st " +
+                "     LEFT JOIN student st " +
                 "        ON se.delegate_id = st.student_id " +
                 " WHERE se.section_id = " + id;
 
@@ -61,7 +83,7 @@ public class SectionDAO {
         String query = """
                 SELECT se.section_id as section_id, section_name, student_id, first_name, last_name, birth_date
                 FROM section se
-                    JOIN student st
+                    LEFT JOIN student st
                         ON se.delegate_id = student_id;
                 """;
 
@@ -175,15 +197,18 @@ public class SectionDAO {
         s.setId(rs.getInt("section_id"));
         s.setNom(rs.getString("section_name"));
 
-        Student st = Student.builder()
-                .responsableDe(s)
-                .birthdate(rs.getDate("birth_date"))
-                .id(rs.getInt("student_id"))
-                .build(
-                        rs.getString("first_name"),
-                        rs.getString("last_name")
-                );
-
+        long stId = rs.getLong("student_id");
+        Student st = null;
+        if(stId != 0){
+            st = Student.builder()
+                    .responsableDe(s)
+                    .birthdate(rs.getDate("birth_date"))
+                    .id( stId )
+                    .build(
+                            rs.getString("first_name"),
+                            rs.getString("last_name")
+                    );
+        }
         s.setDelegue(st);
         return s;
     }

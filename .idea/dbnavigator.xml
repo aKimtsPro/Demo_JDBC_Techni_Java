@@ -24,20 +24,13 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="d8fd8429-d849-411a-bacd-1127adbbe401">
-        <schema name="dbslide" object-types="table, view, function, column" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="d8fd8429-d849-411a-bacd-1127adbbe401">
-      <console name="Connection" type="STANDARD" schema="dbslide" session="Main"><![CDATA[INSERT INTO section(section_id, section_name) VALUES ( 1, '' );
+      <console name="Connection" type="STANDARD" schema="dbslide" session="Main"><![CDATA[CALL SP_INSERT_SECTION ( 7777, "SQL", 22 );
 
-SELECT se.section_id as section_id, section_name, student_id, first_name, last_name, birth_date
-FROM section se 
-    JOIN student st
-        ON se.delegate_id = student_id;]]></console>
+SELECT * FROM section;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -53,6 +46,9 @@ FROM section se
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/src/main/resources/SP_INSERT_SECTION.sql" connection-id="d8fd8429-d849-411a-bacd-1127adbbe401" session-id="MAIN" current-schema="dbslide" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />
